@@ -6,7 +6,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
     && apt-get install -y gnupg tzdata \
-    && echo "UTC" > /etc/timezone \
+    && echo "Europe/Sofia" > /etc/timezone \
+    && ln -fs /usr/share/zoneinfo/`cat /etc/timezone` /etc/localtime \
     && dpkg-reconfigure -f noninteractive tzdata
 
 RUN apt-get update \
@@ -22,4 +23,5 @@ RUN apt-get update \
     && mkdir /run/php \
     && apt-get -y autoremove \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && echo "daemon off" >> /etc/nginx/nginx.conf
