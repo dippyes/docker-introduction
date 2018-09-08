@@ -27,3 +27,9 @@ RUN apt-get update \
     && echo "daemon off;" >> /etc/nginx/nginx.conf
 
 ADD default /etc/nginx/sites-available/default
+
+ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+ADD php-fpm.conf /etc/php/7.2/fpm/php-fpm.conf
+
+CMD ["supervisord"]
