@@ -1,0 +1,24 @@
+version: "3"
+services:
+  # naming based on use case, not of technology
+  cache: 
+    image: redis:alpine
+    networks:
+      - appnet
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: homestead
+      MYSQL_USER: homestead
+      MYSQL_PASSWORD: secret
+    networks:
+      - appnet
+networks:
+  appnet:
+    driver: bridge
+volumes:
+  dbdata:
+    driver: local
+  cashdata:
+    driver: local
