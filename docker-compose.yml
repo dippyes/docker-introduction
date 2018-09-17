@@ -1,10 +1,24 @@
 version: "3"
 services:
   # naming based on use case, not of technology
+  #App - custom image, we need to define it from where to build it
+  app:
+    build:
+      context: ./docker/app
+      dockerfile: ./docker/app/Dockerfile
+    image: shippingdocker/app:latest 
+    networks:
+      - appnet
+    volumes: 
+      - ./application:/var/www/html
+    ports: 
+      - 80:80
   cache: 
     image: redis:alpine
     networks:
       - appnet
+    volumes:
+      - cachedata:/data
   db:
     image: mysql:5.7
     environment:
@@ -14,11 +28,13 @@ services:
       MYSQL_PASSWORD: secret
     networks:
       - appnet
+    volumes:
+      - dbdata:/var/lib/mysql
 networks:
   appnet:
     driver: bridge
 volumes:
   dbdata:
     driver: local
-  cashdata:
+  cachedata:
     driver: local
