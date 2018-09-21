@@ -5,7 +5,7 @@ services:
   app:
     build:
       context: ./docker/app
-      dockerfile: ./docker/app/Dockerfile
+      dockerfile: Dockerfile
     image: shippingdocker/app:latest 
     networks:
       - appnet
@@ -33,6 +33,16 @@ services:
       - dbdata:/var/lib/mysql
     ports: 
       - ${DB_PORT}:3306
+  node:
+    build:
+      context: ./docker/node
+      dockerfile: Dockerfile
+    image: shippingdocker/node:latest
+    networks:
+     - appnet
+    volumes:
+      - ./application:/opt
+    working_dir: /opt
 networks:
   appnet:
     driver: bridge
