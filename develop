@@ -1,45 +1,57 @@
 #!/usr/bin/env bash
+COMPOSE_FILE="dev"
+
+
+# Jenkins specific - when it runs a job it creates an environemnt
+# variable BUILD NUMBER, so we check if it's not blank "-z"
+# and we set the environemnt file to be CI
+if [ ! -z "$BUILD_NUMBER" ]; then
+	COMPOSE_FILE = "ci"
+fi
+
+COMPOSE="docker-compose -f docker-compose.$COMPOSE_FILE.yml"
+
 if [ $# -gt 0 ]; then
 	if [ "$1" == "start" ]; then
-		docker-compose up -d
+		$COMPOSE up -d
 	elif [ "$1" == "stop" ]; then
-		docker-compose down
+		$COMPOSE down
 
 	elif [ "$1" == "artisan" ] || [ "$1" == "art" ]; then
 		shift 1
-		docker-compose exec app \
+		$COMPOSE exec app \
 		php artisan "$@"
 
 	elif [ "$1" == "composer" ] || [ "$1" == "comp" ]; then
 		shift 1
-		docker-compose exec app \
+		$COMPOSE exec app \
 		composer "$@"
 
 	elif [ "$1" = "test" ]; then
 		shift 1
-		docker-compose exec app \
+		$COMPOSE exec app \
 		./vendor/bin/phpunit "$@"
 
 	elif [ "$1" == "npm" ]; then
         shift 1
-        docker-compose run --rm \
+        $COMPOSE run --rm \
             node \
             npm "$@"
 
     elif [ "$1" == "yarn" ]; then
         shift 1
-        docker-compose run --rm \
+        $COMPOSE run --rm \
             node \
             yarn "$@"
 
     elif [ "$1" == "gulp" ]; then
         shift 1
-        docker-compose run --rm \
+        $COMPOSE run --rm \
             node \
             ./node_modules/.bin/gulp "$@"
     else
-        docker-compose "$@"
+        $COMPOSE "$@"
 	fi
 else
-	docker-compose ps
+	$COMPOSE ps
 fi
