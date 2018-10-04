@@ -51,3 +51,7 @@ After you have run the App container, you could pull Laravel through **composer*
 docker exec -it -w /var/www/html app composer create-project laravel/laravel application
 ```
 Via the docker exec command we can run any command required by the application, both **composer** and **artisan**, if no _docker compose_ is used.
+
+## Resources:
+https://serversforhackers.com/s/docker-in-dev-v2-i
+https://serversforhackers.com/s/docker-in-dev-v2-ii
