@@ -54,4 +54,5 @@ Via the docker exec command we can run any command required by the application, 
 
 ## Resources:
 https://serversforhackers.com/s/docker-in-dev-v2-i
+
 https://serversforhackers.com/s/docker-in-dev-v2-ii
