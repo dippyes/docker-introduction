@@ -6,7 +6,7 @@ COMPOSE_FILE="dev"
 # variable BUILD NUMBER, so we check if it's not blank "-z"
 # and we set the environemnt file to be CI
 if [ ! -z "$BUILD_NUMBER" ]; then
-	COMPOSE_FILE = "ci"
+	COMPOSE_FILE="ci"
 fi
 
 COMPOSE="docker-compose -f docker-compose.$COMPOSE_FILE.yml"
